@@ -1,4 +1,4 @@
-import * as THREE from "https://cdn.skypack.dev/three";
+import * as THREE from "three";
 
 export default function exam() {
   const canvas = document.querySelector("#canvas");
