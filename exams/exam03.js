@@ -23,6 +23,16 @@ export default function exam() {
 
   scene.add(camera);
 
+  //주 조명 추가
+  const directionalLight = new THREE.DirectionalLight("white", 1);
+  directionalLight.position.x = 1;
+  directionalLight.position.z = 2;
+  scene.add(directionalLight);
+
+  //보조 조명 추가
+  const ambientLight = new THREE.AmbientLight("white", 0.5);
+  scene.add(ambientLight);
+
   const material = new THREE.MeshBasicMaterial({
     color: "red",
   });

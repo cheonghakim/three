@@ -21,9 +21,9 @@ export default function exam() {
 
   //카메라, 씬, 시간, 초기화
   const camera = getPerspectiveCamera();
-  scene.add(camera);
   const scene = new THREE.Scene();
   const clock = new THREE.Clock();
+  scene.add(camera);
 
   //카메라 컨트롤러 추가
   const controls = new OrbitControls(camera, renderer.domElement);
