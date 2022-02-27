@@ -2,7 +2,7 @@ import * as THREE from "three";
 import Stats from "stats.js";
 import dat from "dat.gui";
 import gsap from "gsap";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { FlyControls } from "three/examples/jsm/controls/FlyControls";
 
 export default function exam() {
   const canvas = document.querySelector("#canvas");
@@ -23,16 +23,14 @@ export default function exam() {
   const scene = new THREE.Scene();
   scene.add(camera);
 
-  //카메라 컨트롤러 추가
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.maxDistance = 20;
-  controls.minDistance = 1;
-  controls.enableDamping = true;
-  controls.autoRotate = true;
-  controls.minPolarAngle = THREE.MathUtils.degToRad(45); //Math.PI / 4
-  controls.maxPolarAngle = THREE.MathUtils.degToRad(135);
-  //   controls.enableZoom = false;
-  controls.target.set(1, 1, 1);
+  //카메라 컨트롤러 추가, wasd로 이동
+  const controls = new FlyControls(camera, renderer.domElement);
+  controls.rollSpeed = 0.5;
+  controls.movementSpeed = 1;
+  controls.dragToLook = true;
+
+  //fly controls 사용시 애니메이션에서 delta값 필요하다
+  const clock = new THREE.Clock();
 
   //렌더러 사이즈, 배경, 픽셀비율에 따른 초기화
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -78,9 +76,10 @@ export default function exam() {
   draw();
 
   function draw() {
+    const delta = clock.getDelta();
     stats.update();
-    //update 안하면 controls의 damping이 처리되지 않음
-    controls.update();
+    //update하지 않으면 controls 사용 불가, 기본적으로 damping 적용되어 있다
+    controls.update(delta);
     geometry.attributes.position.needsUpdate = true;
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

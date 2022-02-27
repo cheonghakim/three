@@ -2,7 +2,7 @@ import * as THREE from "three";
 import Stats from "stats.js";
 import dat from "dat.gui";
 import gsap from "gsap";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 
 export default function exam() {
   const canvas = document.querySelector("#canvas");
@@ -24,10 +24,9 @@ export default function exam() {
   scene.add(camera);
 
   //카메라 컨트롤러 추가
-  const controls = new OrbitControls(camera, renderer.domElement);
+  const controls = new TrackballControls(camera, renderer.domElement);
   controls.maxDistance = 20;
   controls.minDistance = 1;
-  controls.enableDamping = true;
   controls.autoRotate = true;
   controls.minPolarAngle = THREE.MathUtils.degToRad(45); //Math.PI / 4
   controls.maxPolarAngle = THREE.MathUtils.degToRad(135);
@@ -79,7 +78,7 @@ export default function exam() {
 
   function draw() {
     stats.update();
-    //update 안하면 controls의 damping이 처리되지 않음
+    //update하지 않으면 controls 사용 불가, 기본적으로 damping 적용되어 있다
     controls.update();
     geometry.attributes.position.needsUpdate = true;
     renderer.render(scene, camera);
