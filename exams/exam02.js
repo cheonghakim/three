@@ -40,7 +40,6 @@ export default function exam() {
   const mesh = new THREE.Mesh(geometry, material);
 
   scene.add(mesh);
-
   renderer.render(scene, camera);
 
   const stats = new Stats();
