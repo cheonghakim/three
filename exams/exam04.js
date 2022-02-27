@@ -14,29 +14,36 @@ export default function exam() {
     alpha: true,
     antialias: true,
   });
-  const camera = getPerspectiveCamera();
-  const scene = new THREE.Scene();
-  const clock = new THREE.Clock();
+
+  //FPS 스탯 초기화
   const stats = new Stats();
   document.body.append(stats.domElement);
+
+  //카메라, 씬, 시간, 초기화
+  const camera = getPerspectiveCamera();
+  scene.add(camera);
+  const scene = new THREE.Scene();
+  const clock = new THREE.Clock();
+
+  //카메라 컨트롤러 추가
   const controls = new OrbitControls(camera, renderer.domElement);
 
+  //렌더러 사이즈, 배경, 픽셀비율에 따른 초기화
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearAlpha(0.5);
   renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
-  scene.add(camera);
-
-  //light
-  const ambientLight = new THREE.AmbientLight("white", 0.5);
-  scene.add(ambientLight);
-
+  //주 조명 추가
   const directionalLight = new THREE.DirectionalLight("white", 1);
   directionalLight.position.x = 1;
   directionalLight.position.z = 2;
   scene.add(directionalLight);
 
-  //mesh
+  //보조 조명 추가
+  const ambientLight = new THREE.AmbientLight("white", 0.5);
+  scene.add(ambientLight);
+
+  //geometry, material 생성 및 데이터 초기화
   const geometry = new THREE.SphereGeometry(5, 64, 64);
   const material = new THREE.MeshStandardMaterial({
     color: "orangered",
@@ -57,13 +64,18 @@ export default function exam() {
   }
   renderer.render(scene, camera);
 
+  //gui 생성
   const gui = makeGUI();
 
+  //애니메이션 실행
   draw();
 
   function draw() {
     stats.update();
-    const time = clock.getElapsedTime() * 3; // 지속적으로 증가하는 값이 필요
+    // 지속적으로 증가하는 값이 필요
+    const time = clock.getElapsedTime() * 3;
+
+    //렌더링 될때 마다 sin 값에의해 일정한 범위 내의 랜덤 값으로 vertex position 변경
     for (let i = 0; i < positionArray.length; i += 3) {
       positionArray[i] += Math.sin(time + randomArray[i] * 100) * 0.001;
       positionArray[i + 1] += Math.sin(time + randomArray[i + 1] * 100) * 0.001;
@@ -110,12 +122,14 @@ export default function exam() {
     return gui;
   }
 
+  //resize 이벤트 콜백
   function resizing() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.render(scene, camera);
   }
 
+  //perspective 카메라 초기화 함수
   function getPerspectiveCamera() {
     const camera = new THREE.PerspectiveCamera(
       45,
