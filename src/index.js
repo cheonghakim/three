@@ -1,3 +1,3 @@
-import exam from "../exams/exam11.js";
+import exam from "./exams/exam19.js";
 
 exam();
