@@ -6,7 +6,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper";
 
 /**
- * 조명 셋팅
+ * raycaster 사용
  */
 
 export default function exam() {
