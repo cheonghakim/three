@@ -1,3 +1,3 @@
-import exam from "./exams/physics5.js";
+import exam from "./exams/physics5";
 
 exam();
